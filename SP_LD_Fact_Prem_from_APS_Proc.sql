@@ -1,6 +1,6 @@
-USE [bapu]
+USE [XXX]
 GO
-/****** Object:  StoredProcedure [dbo].[sp_ld_fact_prem_fm_APS]    Script Date: 2/27/2017 8:26:08 PM ******/
+/****** Object:  StoredProcedure [dbo].[sp_ld_XXX_fm_APS]    Script Date: 2/27/2017 8:26:08 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -8,26 +8,26 @@ GO
 
 
 --***************************************************************************
--- Process name: [dbo].[sp_ld_fact_prem_fm_APS]
--- Purpose:      Load fact_prem from Stamps_ITDv2 table (s: Drive in Stamp Collector folder)
+-- Process name: [dbo].[sp_ld_XXX_fm_APS]
+-- Purpose:      Load XXX from Stamps_ITDv2 table (s: Drive in Stamp Collector folder)
 -- Author:       Adam Makharita
 -- Created:      09/28/2016
 --***************************************************************************
--- Parameters: @d_begin - Starting date to get data from BAPU_Stamp_Collectors_ITD
---             @d_end - Ending date to get data from [dbo].[bapu_stamp_collectors_ITD]
+-- Parameters: @d_begin - Starting date to get data from XXX
+--             @d_end - Ending date to get data from [dbo].[XXX]
 --***************************************************************************
 
 
-ALTER PROCEDURE [dbo].[sp_ld_fact_prem_fm_APS]
+ALTER PROCEDURE [dbo].[sp_ld_XXX_fm_APS]
    (
-    @d_begin datetime -- Starting date to pull from [bapu_stamp_collectors_ITD] table
-   ,@d_end   datetime -- Ending date to pull from [bapu_stamp_collectors_ITD] table
+    @d_begin datetime -- Starting date to pull from [XXX] table
+   ,@d_end   datetime -- Ending date to pull from [XXX] table
    )
 AS
 SET NOCOUNT ON
 
---BAPU_Stamp_Collectors_ITD variables
-DECLARE @cbapustamp_collectors_ITD cursor
+--XXX variables
+DECLARE @XXX
 DECLARE @id_rowcol int
 DECLARE @id_sc int
 DECLARE @account_period datetime
@@ -42,7 +42,7 @@ DECLARE @policy_limit decimal(30,2)
 DECLARE @agency_commission_amount decimal(30,2)
 DECLARE @transaction_amount decimal(30,2)
 
--- fact_prem variables
+-- XXX variables
 DECLARE @lPolicyLiabilityKey as int
 DECLARE @pol_num as varchar(20)
 DECLARE @trans as varchar(30)
@@ -111,8 +111,8 @@ DECLARE @prev_id_rowcol int; SET @prev_id_rowcol = 0
 
 --Set job parameters
 DECLARE @co_name varchar(50); SET @co_name = 'Berkley Asset Protection Underwriters'
-DECLARE @proc_name varchar(100); SET @proc_name = 'sp_ld_fact_prem_fm_APS'
-DECLARE @cycle_name varchar(100); SET @cycle_name = 'BAPU APS Processing'
+DECLARE @proc_name varchar(100); SET @proc_name = 'sp_ld_XXX_fm_APS'
+DECLARE @cycle_name varchar(100); SET @cycle_name = 'XXX APS Processing'
 DECLARE @id_job int; SET @id_job = 1010
 DECLARE @data_source varchar(10); SET @data_source = 'APS'
 DECLARE @d_inserted datetime; SET @d_inserted = GETDATE()
@@ -134,13 +134,13 @@ EXECUTE sp_get_updt_batch_info '062',@cycle_name,'G: '
 DECLARE @d_first date; SET @d_first = CAST(@d_bat_start as DATE)
 DECLARE @d_last date;  SET @d_last = CAST(@d_bat_end as DATE)
 
--- Clear error_msgs and fact_prem for all data loaded in specified date range
+-- Clear error_msgs and XXX for all data loaded in specified date range
 DELETE FROM error_msgs WHERE proc_name = @proc_name AND id_bat = @id_bat 
-DELETE FROM fact_prem where d_book between @d_first and @d_last and data_source = @data_source
+DELETE FROM XXX where d_book between @d_first and @d_last and data_source = @data_source
 
-SET @cbapustamp_collectors_ITD = CURSOR FOR
+SET @cXXXXXX = CURSOR FOR
 ---- Create premium record from each row
-select -- Pull all fields directly from BAPU_Stamp_Collectors_ITD for edits/validation
+select -- Pull all fields directly from XXX for edits/validation
        g.rowcol
 	  ,g.id_sc
 	  ,g.account_period
@@ -156,7 +156,7 @@ select -- Pull all fields directly from BAPU_Stamp_Collectors_ITD for edits/vali
 
 
       --***************************************************
-      -- Map BAPU_Stamp_Collectors_ITD data into fact_prem format
+      -- Map XXX data into XXX format
       --***************************************************
       ,g.id_sc as lPolicyLiabilityKey
       ,g.policy_number as policy_number
@@ -214,13 +214,13 @@ select -- Pull all fields directly from BAPU_Stamp_Collectors_ITD for edits/vali
       ,StateCode as cvg_state
       ,'Fine Art' as product
       ,'Stamp Collectors' as sub_product
-from bapu.dbo.bapu_stamp_collectors_ITD g
+from XXX.dbo.XXX g
 where CAST(g.account_period as DATE) between @d_first and @d_last
 
 UNION ALL
 
 -- Create commission record from each row
-select -- Pull all fields directly from BAPU_Stamp_Collectors_ITD for edits/validation
+select -- Pull all fields directly from XXX for edits/validation
        g.rowcol
 	  ,g.id_sc
 	  ,g.account_period
@@ -234,7 +234,7 @@ select -- Pull all fields directly from BAPU_Stamp_Collectors_ITD for edits/vali
 	  ,g.Agency_Commission_Amount
 	  ,g.Transaction_Amount
       --***************************************************
-      -- Map BAPU_Stamp_Collecotrs_ITD data into fact_prem format
+      -- Map XXX_Stamp_Collecotrs_ITD data into XXX format
       --***************************************************
       ,g.id_sc as lPolicyLiabilityKey
       ,g.policy_number as policy_number
@@ -296,21 +296,21 @@ select -- Pull all fields directly from BAPU_Stamp_Collectors_ITD for edits/vali
       ,statecode as cvg_state
       ,'Fine Art' as product
       ,'Stamp Collectors' as sub_product
-from bapu.dbo.bapu_stamp_collectors_ITD g
+from XXX.dbo.XXX g
 where CAST(g.account_period as DATE) between @d_first and @d_last
 order by g.RowCol
 
 
-OPEN @cbapustamp_collectors_ITD
+OPEN @cXXXXXX
 
 if @@ERROR <> 0
 BEGIN
-   print 'Unable to read data from bapu.dbo.BAPU_Stamp_Collectors_ITD'
+   print 'Unable to read data from XXX.dbo.XXX'
    RETURN -1
 END
 
 FETCH NEXT
-FROM @cbapustamp_collectors_ITD
+FROM @cXXXXXX
 INTO @id_rowcol
 	,@id_sc
     ,@account_period
@@ -377,7 +377,7 @@ INTO @id_rowcol
 
 IF @@ERROR <> 0
 BEGIN
-   print 'Unable to FETCH (Initial Fetch) data from cursor @cBAPU_stampcollectors_ITD'
+   print 'Unable to FETCH (Initial Fetch) data from cursor @cXXX_stampcollectors_ITD'
    RETURN -2
 END
 
@@ -671,9 +671,9 @@ BEGIN
 
 	   --*** Value Validation Edits **--
 	  
-	   -- Determine if this policy is currently in fact_prem
+	   -- Determine if this policy is currently in XXX
 	   select @new_pol = COUNT(*)
-	   from bapu.dbo.fact_prem
+	   from XXX.dbo.XXX
 	   where pol_num = @pol_num
 	   
 	   --print @new_pol
@@ -683,19 +683,19 @@ BEGIN
 	   IF @new_pol <> 0
 	   BEGIN
 	  
-		  -- Find initial policy effective and expiration dates in fact_prem
+		  -- Find initial policy effective and expiration dates in XXX
 		  select @initial_pol_eff = d_pol_eff
 				,@initial_pol_exp = d_pol_exp
-		  from bapu.dbo.fact_prem fp WITH (NOLOCK)
+		  from XXX.dbo.XXX fp WITH (NOLOCK)
 		  Inner JOIN
 			 (select MIN(lPolicyLiabilityKey) lPolicyLiabilityKey 
-			  from bapu.dbo.fact_prem WITH (NOLOCK) 
+			  from XXX.dbo.XXX WITH (NOLOCK) 
 			  where pol_num = @pol_num) fp_min
 			ON fp.lPolicyLiabilityKey = fp_min.lPolicyLiabilityKey
 		  where pol_num = @pol_num
 			and data_source = @data_source
 	     
-		  -- Determine if @d_pol_eff (pol effective date) and @d_pol_exp (pol expiration date) in fact_prem range
+		  -- Determine if @d_pol_eff (pol effective date) and @d_pol_exp (pol expiration date) in XXX range
 		  select @d_pol_eff_valid = CASE WHEN CAST(@d_pol_eff as DATE) between CAST(@initial_pol_eff as DATE) and CAST(@initial_pol_exp as DATE) THEN 1 ELSE 0 END
 				,@d_pol_exp_valid = CASE WHEN CAST(@d_pol_exp as DATE) between CAST(@initial_pol_eff as DATE) and CAST(@initial_pol_exp as DATE) THEN 1 ELSE 0 END
 	            
@@ -747,11 +747,11 @@ BEGIN
   
    --******************************--
    ----------------------------------
-   -- Begin fact_prem Data Inserts --
+   -- Begin XXX Data Inserts --
    ----------------------------------
    --******************************--
    
-   INSERT INTO bapu.dbo.fact_prem
+   INSERT INTO XXX.dbo.XXX
     (lPolicyLiabilityKey
     ,pol_num
     ,trans
@@ -869,7 +869,7 @@ BEGIN
    SET @prev_id_rowcol = @id_rowcol
    
 FETCH NEXT
-FROM @cbapustamp_collectors_ITD
+FROM @cXXXXXX
 INTO @id_rowcol
 	,@id_sc
     ,@account_period
@@ -936,7 +936,7 @@ INTO @id_rowcol
        
    IF @@error <> 0 
    BEGIN
-      print 'Unable to FETCH data (Repeating Fetch) from cursor @cbapustamp_collectors_ITD'
+      print 'Unable to FETCH data (Repeating Fetch) from cursor @cXXXXXX'
       RETURN -3
    END
       
@@ -945,8 +945,8 @@ INTO @id_rowcol
    
 END --End while loop
 
-CLOSE @cbapustamp_collectors_ITD
-DEALLOCATE @cbapustamp_collectors_ITD
+CLOSE @cXXXXXX
+DEALLOCATE @cXXXXXX
 
 RETURN 0
 
