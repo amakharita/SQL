@@ -6,7 +6,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-
 --***************************************************************************
 -- Process name: [dbo].[sp_ld_XXX_fm_APS]
 -- Purpose:      Load XXX from Stamps_ITDv2 table (s: Drive in Stamp Collector folder)
