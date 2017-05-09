@@ -168,19 +168,19 @@ select -- Pull all fields directly from XXX for edits/validation
       ,g.date_processed as d_tran_eff
       ,g.expiration_date as d_tran_exp
       ,g.date_processed as d_tran_proc
-      ,'325' as num_co
+      ,'XXX' as num_co
       ,NULL as pol_num_legacy
-	  ,'Starnet Insurance Company' as rpt_co_name
+	  ,'XXX' as rpt_co_name
       --,@co_name as co_name -- Already Set, Does not need to be reset in each cursor loop.
-      ,'Nicholas Reynolds' as underwriter
-      ,'310001469' as producer_code
-      ,'Hugh Wood Inc.' as producer_name
-      ,'090' as aslob
+      ,'XXX' as underwriter
+      ,'XXX' as producer_code
+      ,'XXX.' as producer_name
+      ,'XXX' as aslob
       ,'N/A' as subline
-      ,'7220' as class
+      ,'XXX' as class
       ,'APS' as cvg_desc
-      ,'APSP' as product_cd
-      ,'FA' as product_grp_cd
+      ,'XXX' as product_cd
+      ,'XXX' as product_grp_cd
       ,account_name  as insd_name
       ,address as insd_addr
       ,city as insd_city
@@ -212,7 +212,7 @@ select -- Pull all fields directly from XXX for edits/validation
       --,@id_bat as id_bat -- Already Set, Does NOT need to be reset in each cursor loop.
       ,NULL as f_clsd
       ,StateCode as cvg_state
-      ,'Fine Art' as product
+      ,'XXX' as product
       ,'Stamp Collectors' as sub_product
 from XXX.dbo.XXX g
 where CAST(g.account_period as DATE) between @d_first and @d_last
@@ -246,16 +246,16 @@ select -- Pull all fields directly from XXX for edits/validation
       ,g.date_processed as d_tran_eff
       ,g.Expiration_Date as d_tran_exp
       ,g.date_processed as d_tran_proc
-      ,'325' as num_co
+      ,'XXX' as num_co
       ,NULL as pol_num_legacy
-      ,'Starnet Insurance Company' as rpt_co_name
+      ,'XXX' as rpt_co_name
       --,@co_name as co_name -- Already Set, Does not need to be reset in each cursor loop.
-      ,'Nicholas Reynolds' as underwriter
-      ,'310001469' as producer_code
-      ,'Hugh Wood Inc.' as producer_name
-      ,'090' as aslob
+      ,'XXX' as underwriter
+      ,'XXX' as producer_code
+      ,'XXX.' as producer_name
+      ,'XXX' as aslob
       ,'N/A' as subline
-      ,'7220' as class
+      ,'XXX' as class
       ,'APS' as cvg_desc
       ,'APSP' as product_cd
       ,'FA' as product_grp_cd
@@ -294,7 +294,7 @@ select -- Pull all fields directly from XXX for edits/validation
       --,@id_bat as id_bat -- Already Set, Does NOT need to be reset in each cursor loop.
       ,NULL as f_clsd
       ,statecode as cvg_state
-      ,'Fine Art' as product
+      ,'XXX' as product
       ,'Stamp Collectors' as sub_product
 from XXX.dbo.XXX g
 where CAST(g.account_period as DATE) between @d_first and @d_last
